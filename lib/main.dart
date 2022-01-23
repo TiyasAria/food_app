@@ -1,19 +1,47 @@
 
 import 'package:flutter/material.dart';
 import 'package:food_app/screen/categories_meals_screen.dart';
-import 'package:food_app/screen/categories_screen.dart';
 import 'package:food_app/screen/meal_detail_screen.dart';
+import 'package:food_app/screen/tabs_screen.dart';
+
+import 'model/meal.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  List<Meal> _favoriteMeals = [];
+
+  void _toggleFavorite(String mealId){
+    final existingIndex =
+        _favoriteMeals.indexWhere((meal) => meal.id == mealId);
+    if(existingIndex >= 0){
+      setState(() {
+        _favoriteMeals.removeAt(existingIndex);
+      });
+    } else{
+      setState(() {
+        _favoriteMeals.add(meal.firstWhere((meal) => meal.id == mealId));
+      });
+    }
+  }
+
+  bool  _isMealFavorite(String mealId) {
+    return _favoriteMeals.any((meal) => meal.id == mealId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tiyas meals App',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.pink,
         accentColor: Colors.amber,
@@ -28,7 +56,8 @@ class MyApp extends StatelessWidget {
           ),
           headline6: TextStyle(
             fontFamily: 'RobotoCondensed',
-            fontSize: 24
+            fontSize: 24,
+            fontWeight: FontWeight.bold
           )
         )
       ),
@@ -36,10 +65,11 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
     //  untuk membuat routes nav
       routes: {
-        '/' : (ctx) => CategoriesScreen(),
+        '/' : (ctx) => TabsScreen(_favoriteMeals),
          CategoriesMealsScreen.routeName :  (ctx) => CategoriesMealsScreen(),
-         MealDetailScreen.routeName : (ctx) => MealDetailScreen()
+         MealDetailScreen.routeName : (ctx) => MealDetailScreen(_toggleFavorite, _isMealFavorite)
       },
+
     );
   }
 }

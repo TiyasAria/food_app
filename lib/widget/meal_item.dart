@@ -51,7 +51,8 @@ class MealItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.pushNamed(context, MealDetailScreen.routeName, arguments: id);
+        Navigator.pushNamed(context, MealDetailScreen.routeName, arguments: id)
+          ;
       },
       child: Card(
         shape: RoundedRectangleBorder(

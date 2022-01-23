@@ -5,10 +5,8 @@ import 'package:food_app/widget/meal_item.dart';
 class CategoriesMealsScreen extends StatelessWidget {
  // buat var untuk nama routes nya
   static const routeName = '/categories-meals';
- // final String categoryId;
- // final String categoryTitle;
- //
- // CategoriesMealsScreen(this.categoryTitle, this.categoryId);
+
+
 
 
   @override
